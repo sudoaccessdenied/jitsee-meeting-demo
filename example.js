@@ -257,7 +257,7 @@ JitsiMeetJS.mediaDevices.addEventListener(
 
 connection.connect();
 
-JitsiMeetJS.createLocalTracks({ devices: [ 'audio', 'video' ] })
+JitsiMeetJS.createLocalTracks({ devices: [ 'audio' ] })
     .then(onLocalTracks)
     .catch(error => {
         throw error;
