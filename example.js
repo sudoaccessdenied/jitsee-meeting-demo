@@ -85,7 +85,7 @@ function onRemoteTrack(track) {
 
     if (track.getType() === 'video') {
         $('body').append(
-            `<video autoplay='1' id='${participant}video${idx}' />`);
+            `<video autoplay='1' id='${participant}video${idx}' width="30%"  />`);
     } else {
         $('body').append(
             `<audio autoplay='1' id='${participant}audio${idx}' />`);
