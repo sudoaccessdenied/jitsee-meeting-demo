@@ -40,7 +40,7 @@ function onLocalTracks(tracks) {
                 console.log(
                     `track audio output device was changed to ${deviceId}`));
         if (localTracks[i].getType() === 'video') {
-            $('body').append(`<video autoplay='1' id='localVideo${i}' width="400" height="400" />`);
+            $('body').append(`<video autoplay='1' id='localVideo${i}' width="30%"  />`);
             localTracks[i].attach($(`#localVideo${i}`)[0]);
         } else {
             $('body').append(
