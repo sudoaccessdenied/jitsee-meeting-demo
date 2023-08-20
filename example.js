@@ -205,7 +205,7 @@ function switchVideo() { // eslint-disable-line no-unused-vars
         localTracks.pop();
     }
     JitsiMeetJS.createLocalTracks({
-        devices: [ isVideo ? 'video' : 'desktop' ]
+        devices: [isVideo ? 'video' : 'desktop']
     })
         .then(tracks => {
             localTracks.push(tracks[0]);
@@ -260,43 +260,53 @@ JitsiMeetJS.mediaDevices.addEventListener(
 
 connection.connect();
 
-JitsiMeetJS.createLocalTracks({ devices: [ 'audio' ,'video' ] })
+JitsiMeetJS.createLocalTracks({ devices: ['audio', 'video'] })
     .then(onLocalTracks)
     .catch(error => {
         throw error;
     });
 
 if (JitsiMeetJS.mediaDevices.isDeviceChangeAvailable('output')) {
+    updateOutputDevice();
+}
+if (JitsiMeetJS.mediaDevices.isDeviceChangeAvailable('input')) {
+    updateInputDevice();
+}
+
+
+function updateOutputDevice() {
     JitsiMeetJS.mediaDevices.enumerateDevices(devices => {
-        const audioOutputDevices
-            = devices.filter(d => d.kind === 'audiooutput');
+        const audioOutputDevices = devices.filter(d => d.kind === 'audiooutput');
 
         if (audioOutputDevices.length > 1) {
             $('#audioOutputSelect').html(
                 audioOutputDevices
                     .map(
-                        d =>
-                            `<option value="${d.deviceId}">${d.label}</option>`)
+                        d => `<option value="${d.deviceId}">${d.label}</option>`)
                     .join('\n'));
 
             $('#audioOutputSelectWrapper').show();
         }
     });
 }
-if (JitsiMeetJS.mediaDevices.isDeviceChangeAvailable('input')) {
+
+function updateInputDevice() {
     JitsiMeetJS.mediaDevices.enumerateDevices(devices => {
-        const audioOutputDevices
-            = devices.filter(d => d.kind === 'audioinput');
+        const audioOutputDevices = devices.filter(d => d.kind === 'audioinput');
 
         if (audioOutputDevices.length > 1) {
             $('#audioInputSelect').html(
                 audioOutputDevices
                     .map(
-                        d =>
-                            `<option value="${d.deviceId}">${d.label}</option>`)
+                        d => `<option value="${d.deviceId}">${d.label}</option>`)
                     .join('\n'));
 
             $('#audioInputSelectWrapper').show();
         }
     });
+}
+
+JitsiMeetJS.mediaDevices.onDeviceListChanged = () => {
+    updateInputDevice();
+    updateOutputDevice();
 }
