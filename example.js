@@ -164,6 +164,8 @@ function onConnectionFailed() {
  */
 function onDeviceListChanged(devices) {
     console.info('current devices', devices);
+    updateInputDevice();
+    updateOutputDevice();
 }
 
 /**
@@ -304,9 +306,4 @@ function updateInputDevice() {
             $('#audioInputSelectWrapper').show();
         }
     });
-}
-
-JitsiMeetJS.mediaDevices.onDeviceListChanged = () => {
-    updateInputDevice();
-    updateOutputDevice();
 }
