@@ -281,7 +281,7 @@ function updateOutputDevice() {
         const audioOutputDevices = devices.filter(d => d.kind === 'audiooutput');
 
         if (audioOutputDevices.length > 1) {
-            $('#audioOutputSelect').remove();
+            $('#audioOutputSelect').empty();
             $('#audioOutputSelect').html(
                 audioOutputDevices
                     .map(
@@ -298,7 +298,7 @@ function updateInputDevice() {
         const audioOutputDevices = devices.filter(d => d.kind === 'audioinput');
 
         if (audioOutputDevices.length > 1) {
-            $('#audioInputSelect').remove();
+            $('#audioInputSelect').empty();
             $('#audioInputSelect').html(
                 audioOutputDevices
                     .map(
