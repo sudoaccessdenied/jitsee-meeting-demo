@@ -40,13 +40,17 @@ function onLocalTracks(tracks) {
             deviceId =>
                 console.log(
                     `track audio output device was changed to ${deviceId}`));
-        if (localTracks[i].getType() === 'video') {
-            $('#videoContainer').append(`<video autoplay='1' id='localVideo${i}' width="30%"  class="item" playsinline controls/>`);
-            localTracks[i].attach($(`#localVideo${i}`)[0]);
-        } else {
+        // if (localTracks[i].getType() === 'video') {
+        //     $('#videoContainer').append(`<video autoplay='1' id='localVideo${i}' width="30%"  class="item" playsinline controls/>`);
+        //     localTracks[i].attach($(`#localVideo${i}`)[0]);
+        // } else {
+        // }
+
+        if (localTracks[i].getType(0 === 'audio')) {
             $('#audioContainer').append(
                 `<audio autoplay='1' muted='true' id='localAudio${i}' controls />`);
             localTracks[i].attach($(`#localAudio${i}`)[0]);
+
         }
         if (isJoined) {
             room.addTrack(localTracks[i]);
@@ -84,13 +88,15 @@ function onRemoteTrack(track) {
                 `track audio output device was changed to ${deviceId}`));
     const id = participant + track.getType() + idx;
 
-    if (track.getType() === 'video') {
-        $('#videoContainer').append(
-            `<video class="item"  autoplay='1' id='${participant}video${idx}' width="30%"  playsinline controls/>`);
-    } else {
+    // if (track.getType() === 'video') {
+    //     $('#videoContainer').append(
+    //         `<video class="item"  autoplay='1' id='${participant}video${idx}' width="30%"  playsinline controls/>`);
+    // } else {
+    if (track.getType(0 === 'audio')) {
         $('#audioContainer').append(
             `<audio autoplay='1' id='${participant}audio${idx}' controls />`);
     }
+    // }
     track.attach($(`#${id}`)[0]);
 }
 
@@ -168,7 +174,7 @@ function onDeviceListChanged(devices) {
     console.info('current devices', devices);
     updateInputDevice();
     updateOutputDevice();
-    if(!onlyOnce){
+    if (!onlyOnce) {
         // JitsiMeetJS.mediaDevices.setAudioInputDevice('default');
         // JitsiMeetJS.mediaDevices.setAudioOutputDevice('default');
         onlyOnce = true;
