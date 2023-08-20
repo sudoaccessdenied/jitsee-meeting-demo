@@ -9,6 +9,7 @@ const options = {
 };
 
 const confOptions = {
+    startAudioOnly: true
 };
 
 let connection = null;
