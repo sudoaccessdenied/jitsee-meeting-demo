@@ -168,8 +168,8 @@ function onDeviceListChanged(devices) {
     updateInputDevice();
     updateOutputDevice();
     if(!onlyOnce){
-        JitsiMeetJS.mediaDevices.setAudioInputDevice('default');
-        JitsiMeetJS.mediaDevices.setAudioOutputDevice('default');
+        // JitsiMeetJS.mediaDevices.setAudioInputDevice('default');
+        // JitsiMeetJS.mediaDevices.setAudioOutputDevice('default');
         onlyOnce = true;
     }
 }
