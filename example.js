@@ -166,8 +166,9 @@ function onDeviceListChanged(devices) {
     console.info('current devices', devices);
     updateInputDevice();
     updateOutputDevice();
+    JitsiMeetJS.mediaDevices.setAudioInputDevice('default');
+    JitsiMeetJS.mediaDevices.setAudioOutputDevice('default');
 }
-
 /**
  * This function is called when we disconnect.
  */
