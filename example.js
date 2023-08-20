@@ -9,7 +9,6 @@ const options = {
 };
 
 const confOptions = {
-    startAudioOnly: true
 };
 
 let connection = null;
@@ -48,10 +47,15 @@ function onLocalTracks(tracks) {
 
         if (localTracks[i].getType(0 === 'audio')) {
             $('#audioContainer').append(
-                `<audio autoplay='1' muted='true' id='localAudio${i}' controls />`);
+                `<audio autoplay='1' muted='true' id='localAudio${i}' />`);
+
+            $('#audioContainer').append(
+                `<div  class="item" id='localAudio${i}'> ME </div>`);
             localTracks[i].attach($(`#localAudio${i}`)[0]);
+            localTracks[i].track.enabled = false;
 
         }
+
         if (isJoined) {
             room.addTrack(localTracks[i]);
         }
@@ -94,7 +98,10 @@ function onRemoteTrack(track) {
     // } else {
     if (track.getType(0 === 'audio')) {
         $('#audioContainer').append(
-            `<audio autoplay='1' id='${participant}audio${idx}' controls />`);
+            `<audio autoplay='1' id='${participant}audio${idx}'/>`);
+        $('#audioContainer').append(
+            `<div autoplay='1' class="item" id='${participant}audio${idx}'> ${participant}audio${idx} </div>`);
+
     }
     // }
     track.attach($(`#${id}`)[0]);
@@ -126,6 +133,7 @@ function onUserLeft(id) {
         tracks[i].detach($(`#${id}${tracks[i].getType()}`));
     }
 }
+
 
 /**
  * That function is called when connection is established successfully
@@ -320,4 +328,44 @@ function updateInputDevice() {
             $('#audioInputSelectWrapper').show();
         }
     });
+}
+
+
+
+
+window.addEventListener('keydown', (event) => {
+
+    if (event.key === 'm' && !localTracks[0].track.enabled) {
+        localTracks[0].track.enabled = true;
+        console.log('Unmuted');
+        const muteStatus = document.getElementById('muteButton');
+        muteButton.innerHTML = "Mute";
+    }
+
+
+});
+
+// Register keyup event handler
+window.addEventListener('keyup', (event) => {
+    if (event.key === 'm' && localTracks[0].track.enabled) {
+        localTracks[0].track.enabled = false;
+        const muteButton = document.getElementById('muteButton');
+        muteButton.innerHTML = "Unmute";
+        console.log('Muted');
+
+    }
+});
+function toggleMute() {
+    const muteButton = document.getElementById('muteButton');
+    if (localTracks[0].track.enabled) {
+        muteButton.innerHTML = "Unmute";
+        console.log('Muted');
+        localTracks[0].track.enabled = false;
+        return;
+
+    }
+    localTracks[0].track.enabled = true;
+    console.log('Unmuted');
+    muteButton.innerHTML = "Mute";
+
 }
