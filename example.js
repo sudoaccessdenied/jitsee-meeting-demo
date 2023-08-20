@@ -40,11 +40,11 @@ function onLocalTracks(tracks) {
                 console.log(
                     `track audio output device was changed to ${deviceId}`));
         if (localTracks[i].getType() === 'video') {
-            $('body').append(`<video autoplay='1' id='localVideo${i}' width="30%"  playsinline/>`);
+            $('#videoContainer').append(`<video autoplay='1' id='localVideo${i}' width="30%"  class="item" playsinline controls/>`);
             localTracks[i].attach($(`#localVideo${i}`)[0]);
         } else {
-            $('body').append(
-                `<audio autoplay='1' muted='true' id='localAudio${i}' />`);
+            $('#audioContainer').append(
+                `<audio autoplay='1' muted='true' id='localAudio${i}' controls />`);
             localTracks[i].attach($(`#localAudio${i}`)[0]);
         }
         if (isJoined) {
@@ -84,11 +84,11 @@ function onRemoteTrack(track) {
     const id = participant + track.getType() + idx;
 
     if (track.getType() === 'video') {
-        $('body').append(
-            `<video autoplay='1' id='${participant}video${idx}' width="30%"  playsinline/>`);
+        $('#videoContainer').append(
+            `<video class="item"  autoplay='1' id='${participant}video${idx}' width="30%"  playsinline controls/>`);
     } else {
-        $('body').append(
-            `<audio autoplay='1' id='${participant}audio${idx}' />`);
+        $('#audioContainer').append(
+            `<audio autoplay='1' id='${participant}audio${idx}' controls />`);
     }
     track.attach($(`#${id}`)[0]);
 }
@@ -228,13 +228,16 @@ function switchVideo() { // eslint-disable-line no-unused-vars
 function changeAudioOutput(selected) { // eslint-disable-line no-unused-vars
     JitsiMeetJS.mediaDevices.setAudioOutputDevice(selected.value);
 }
+function changeAudioInput(selected) { // eslint-disable-line no-unused-vars
+    JitsiMeetJS.mediaDevices.setAudioInputDevice(selected.value);
+}
 
 $(window).bind('beforeunload', unload);
 $(window).bind('unload', unload);
 
 // JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.ERROR);
 const initOptions = {
-    disableAudioLevels: true
+    disableAudioLevels: true,
 };
 
 JitsiMeetJS.init(initOptions);
@@ -277,6 +280,23 @@ if (JitsiMeetJS.mediaDevices.isDeviceChangeAvailable('output')) {
                     .join('\n'));
 
             $('#audioOutputSelectWrapper').show();
+        }
+    });
+}
+if (JitsiMeetJS.mediaDevices.isDeviceChangeAvailable('input')) {
+    JitsiMeetJS.mediaDevices.enumerateDevices(devices => {
+        const audioOutputDevices
+            = devices.filter(d => d.kind === 'audioinput');
+
+        if (audioOutputDevices.length > 1) {
+            $('#audioInputSelect').html(
+                audioOutputDevices
+                    .map(
+                        d =>
+                            `<option value="${d.deviceId}">${d.label}</option>`)
+                    .join('\n'));
+
+            $('#audioInputSelectWrapper').show();
         }
     });
 }
