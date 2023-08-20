@@ -40,7 +40,7 @@ function onLocalTracks(tracks) {
                 console.log(
                     `track audio output device was changed to ${deviceId}`));
         if (localTracks[i].getType() === 'video') {
-            $('body').append(`<video autoplay='1' id='localVideo${i}' width="30%"  />`);
+            $('body').append(`<video autoplay='1' id='localVideo${i}' width="30%"  playsinline/>`);
             localTracks[i].attach($(`#localVideo${i}`)[0]);
         } else {
             $('body').append(
@@ -85,7 +85,7 @@ function onRemoteTrack(track) {
 
     if (track.getType() === 'video') {
         $('body').append(
-            `<video autoplay='1' id='${participant}video${idx}' width="30%"  />`);
+            `<video autoplay='1' id='${participant}video${idx}' width="30%"  playsinline/>`);
     } else {
         $('body').append(
             `<audio autoplay='1' id='${participant}audio${idx}' />`);
