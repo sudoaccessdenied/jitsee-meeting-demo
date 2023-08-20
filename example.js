@@ -162,12 +162,16 @@ function onConnectionFailed() {
 /**
  * This function is called when the connection fail.
  */
+let onlyOnce = false;
 function onDeviceListChanged(devices) {
     console.info('current devices', devices);
     updateInputDevice();
     updateOutputDevice();
-    JitsiMeetJS.mediaDevices.setAudioInputDevice('default');
-    JitsiMeetJS.mediaDevices.setAudioOutputDevice('default');
+    if(!onlyOnce){
+        JitsiMeetJS.mediaDevices.setAudioInputDevice('default');
+        JitsiMeetJS.mediaDevices.setAudioOutputDevice('default');
+        onlyOnce = true;
+    }
 }
 /**
  * This function is called when we disconnect.
